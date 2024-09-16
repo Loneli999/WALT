@@ -48,7 +48,7 @@ This route evaluates the robot's capabilities in obstacle detection and avoidanc
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.7\textwidth]{Paper/Images/Target_Route.jpg}
+    \includegraphics[width=0.7\textwidth]{Project_Report/Images/Target_Route.jpg}
     \caption{Target route of the robot}
     \label{fig:Target_Route}
 \end{figure}
@@ -59,13 +59,13 @@ The quadruped robot is well-suited for a variety of real-world applications. It 
 
 \section{Project Structure and Task Allocation}
 
-The figure above illustrates the hierarchical structure and flow of data and control signals within the quadruped robot system. The system is organized into five primary components:
+The figure below illustrates the hierarchical structure and flow of data and control signals within the quadruped robot system. The system is organized into five primary components:
 
 \begin{enumerate}
 
-    \item \textbf{Perception}: This module, operating within a laptop environment, processes sensor data (such as from cameras or LIDAR) to generate a live feed of the robot’s surroundings. The processed data is essential for decision-making in autonomous navigation.
+    \item \textbf{Perception}: This module, operating within a laptop environment, processes sensor data (such as from a camera or a LIDAR) to generate a live feed of the robot’s surroundings, such as detected objects or walls. The processed data is essential for decision-making in autonomous navigation.
     
-    \item \textbf{Path Planning}: Based on the perception data, the path planning module calculates optimal routes, avoiding obstacles while ensuring smooth navigation. This module also resides within the laptop environment.
+    \item \textbf{Path Planning}: Based on the perception data, the path planning algorithm calculates optimal routes, avoiding obstacles while ensuring smooth navigation. This algorithm also runs on a laptop.
     
     \item \textbf{Electronics and Microcontroller}: This component is responsible for executing commands from the path planning module, handling low-level operations like motor control, sensor interfacing, and communication with the perception system.
     
@@ -82,7 +82,7 @@ The live feed loop allows continuous feedback from the robot to the perception s
     \begin{tikzpicture}
     
     % Laptop Environment
-    \fill[gray!20] (-4, 1.5) rectangle (4, -3);
+    \fill[gray!20] (-4, 1.5) rectangle (4, -2.25);
     \node at (-2, 1) {Laptop Environment};
 
     % Perception:
@@ -91,22 +91,22 @@ The live feed loop allows continuous feedback from the robot to the perception s
     };
 
     % Path Planning
-    \node[draw, fill=blue!20, minimum width=6cm, minimum height=1cm, text width=5.8cm, align=center] (Path Planning) at (0, -2) {
+    \node[draw, fill=blue!20, minimum width=6cm, minimum height=1cm, text width=5.8cm, align=center] (Path Planning) at (0, -1.5) {
     \textbf{Path Planning}
     };
 
     % Electronics and Microcontroller
-    \node[draw, fill=blue!20, minimum width=6cm, minimum height=1cm, text width=5.8cm, align=center] (Electronics) at (0, -4) {
+    \node[draw, fill=blue!20, minimum width=6cm, minimum height=1cm, text width=5.8cm, align=center] (Electronics) at (0, -3) {
     \textbf{Electronics and Microcontroller}
     };
 
     % Control:
-    \node[draw, fill=blue!20, minimum width=6cm, minimum height=1cm, text width=5.8cm, align=center] (Control) at (0, -6) {
+    \node[draw, fill=blue!20, minimum width=6cm, minimum height=1cm, text width=5.8cm, align=center] (Control) at (0, -4.5) {
     \textbf{Control}
     };
 
     % Mechanical Design and Structure
-    \node[draw, fill=blue!20, minimum width=6cm, minimum height=1cm, text width=5.8cm, align=center] (Mechanical) at (0, -8) {
+    \node[draw, fill=blue!20, minimum width=6cm, minimum height=1cm, text width=5.9cm, align=center] (Mechanical) at (0, -6) {
     \textbf{Mechanical Design and Structure}
     };
 
