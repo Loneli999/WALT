@@ -1,8 +1,15 @@
 \documentclass{article}
+
+% Packages:
 \usepackage{geometry}
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{tikz}
+\usepackage{float}
+
+% Settings:
+\setlength{\parindent}{0pt}
+
 
 \begin{document}
 
@@ -52,65 +59,67 @@ The quadruped robot is well-suited for a variety of real-world applications. It 
 
 \section{Project Structure and Task Allocation}
 
-\begin{figure}[ht]
+The figure above illustrates the hierarchical structure and flow of data and control signals within the quadruped robot system. The system is organized into five primary components:
+
+\begin{enumerate}
+
+    \item \textbf{Perception}: This module, operating within a laptop environment, processes sensor data (such as from cameras or LIDAR) to generate a live feed of the robot’s surroundings. The processed data is essential for decision-making in autonomous navigation.
+    
+    \item \textbf{Path Planning}: Based on the perception data, the path planning module calculates optimal routes, avoiding obstacles while ensuring smooth navigation. This module also resides within the laptop environment.
+    
+    \item \textbf{Electronics and Microcontroller}: This component is responsible for executing commands from the path planning module, handling low-level operations like motor control, sensor interfacing, and communication with the perception system.
+    
+    \item \textbf{Control}: The control system takes high-level decisions from the electronics and microcontroller and translates them into commands for the actuators, ensuring stable and effective locomotion.
+    
+    \item \textbf{Mechanical Design and Structure}: This section is responsible for the physical movement and interaction of the robot with its environment, based on commands from the control system.
+\end{enumerate}
+    
+The live feed loop allows continuous feedback from the robot to the perception system, enabling real-time adjustments and efficient decision-making in dynamic environments.
+
+
+\begin{figure}[H]
     \centering
     \begin{tikzpicture}
-    % Large transparent rectangle representing environment
-    \fill[gray!20] (-1, 4) rectangle (5, -6);
-
-    % Label for the large environment rectangle
-    \node at (2, 4.5) {Environment};
+    
+    % Laptop Environment
+    \fill[gray!20] (-4, 1.5) rectangle (4, -3);
+    \node at (-2, 1) {Laptop Environment};
 
     % Perception:
-    \node[draw, fill=blue!20, minimum width=4cm, minimum height=2cm, text width=3.8cm, align=left] (Perception) at (-8, 0) {
-    \textbf{Perception} \\
-    \begin{itemize}
-        \item Bullet point 1
-        \item Bullet point 2
-        \item Bullet point 3
-    \end{itemize}
+    \node[draw, fill=blue!20, minimum width=6cm, minimum height=1cm, text width=5.8cm, align=center] (Perception) at (0, 0) {
+    \textbf{Perception}
     };
-    
-    \node[draw, fill=green!20, minimum width=2cm, minimum height=1cm] (PA) at (2, 1.5) {PA};
-    \node[draw, fill=yellow!20, minimum width=2cm, minimum height=1cm] (E) at (2, 0) {E};
 
-    % Rectangles outside the large environment
-    \node[draw, fill=red!20, minimum width=2cm, minimum height=1cm] (C) at (0, -3) {C};
-    \node[draw, fill=orange!20, minimum width=2cm, minimum height=1cm] (M) at (4, -3) {M};
+    % Path Planning
+    \node[draw, fill=blue!20, minimum width=6cm, minimum height=1cm, text width=5.8cm, align=center] (Path Planning) at (0, -2) {
+    \textbf{Path Planning}
+    };
+
+    % Electronics and Microcontroller
+    \node[draw, fill=blue!20, minimum width=6cm, minimum height=1cm, text width=5.8cm, align=center] (Electronics) at (0, -4) {
+    \textbf{Electronics and Microcontroller}
+    };
+
+    % Control:
+    \node[draw, fill=blue!20, minimum width=6cm, minimum height=1cm, text width=5.8cm, align=center] (Control) at (0, -6) {
+    \textbf{Control}
+    };
+
+    % Mechanical Design and Structure
+    \node[draw, fill=blue!20, minimum width=6cm, minimum height=1cm, text width=5.8cm, align=center] (Mechanical) at (0, -8) {
+    \textbf{Mechanical Design and Structure}
+    };
 
     % Connections
-    \draw[->] (Perception.east) -- (PA);
-    \draw[->] (PA) -- (E);
-    \draw[->] (E) -- (C);
-    \draw[->] (E) -- (M);
+    \draw[->] (Perception.south) -- (Path Planning.north);
+    \draw[->] (Path Planning) -- (Electronics);
+    \draw[->] (Electronics) -- (Control);
+    \draw[->] (Control) -- (Mechanical);
+    \draw[->] (Electronics.east) -- ++(2cm, 0) |- (Perception.east)node[pos=0.25, above, rotate=90] {Live Feed};
 
     \end{tikzpicture}
     \caption{Project Structure}
     \label{fig:Project_Structure}
 \end{figure}
-
-\subsection{First Basic Design Ideas}
-
-\subsubsection{Locomotion Mechanism}
-Joints, servo mount positioning, etc.
-
-\subsubsection{Mechanical Structure}
-(TBD)
-
-\subsubsection{Electronics and Embedded System}
-
-\textbf{Microcontroller:} Raspberry Pi 5 8GB, powerful enough for the task.
-
-\textbf{Camera:} Feed into Raspberry Pi; wireless/cable (Wi-Fi) feed to a laptop to run a vision algorithm and send back useful information for obstacle mapping.
-
-\textbf{Power management:} (TBD)
-
-\textbf{Obstacle Detection and Navigation:} ROS2 (Nav2) offers useful tools for sensors and processing.
-
-\subsection{Control System}
-ROS2 provides control packages useful for gaits and general control. 
-
-\textit{Note:} ROS2 could be very beneficial for the system's architecture.
-
 
 \end{document}
