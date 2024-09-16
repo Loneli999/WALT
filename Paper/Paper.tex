@@ -2,6 +2,7 @@
 \usepackage{geometry}
 \usepackage{graphicx}
 \usepackage{amsmath}
+\usepackage{tikz}
 
 \begin{document}
 
@@ -38,11 +39,55 @@ The target route for the robot is designed to test its ability to navigate both 
 
 This route evaluates the robot's capabilities in obstacle detection and avoidance, control and mechanical design, seamless transitions between driving and walking modes, and successfully overcoming challenges to reach the predefined endpoint.
 
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{Paper/Target_Route.jpg}
+    \caption{Target route of the robot}
+    \label{fig:Target_Route}
+\end{figure}
+
 \subsection{Real-World Application of the Project}
 
 The quadruped robot is well-suited for a variety of real-world applications. It excels in autonomous delivery, particularly for last-mile logistics, where fast-paced driving on flat surfaces is required, but the ability to overcome obstacles, such as stairs or curbs, is essential. In industrial environments, such as factories and warehouses, the robot is ideal for navigating primarily flat surfaces at high speeds while still being capable of overcoming occasional obstacles, ensuring smooth and efficient operations. Its versatility makes it valuable in any environment where fast driving is the primary mode of transport, but the ability to switch to walking or climbing is mandatory to handle challenging obstacles.
 
 \section{Project Structure and Task Allocation}
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+    % Large transparent rectangle representing environment
+    \fill[gray!20] (-1, 4) rectangle (5, -6);
+
+    % Label for the large environment rectangle
+    \node at (2, 4.5) {Environment};
+
+    % Perception:
+    \node[draw, fill=blue!20, minimum width=4cm, minimum height=2cm, text width=3.8cm, align=left] (Perception) at (-8, 0) {
+    \textbf{Perception} \\
+    \begin{itemize}
+        \item Bullet point 1
+        \item Bullet point 2
+        \item Bullet point 3
+    \end{itemize}
+    };
+    
+    \node[draw, fill=green!20, minimum width=2cm, minimum height=1cm] (PA) at (2, 1.5) {PA};
+    \node[draw, fill=yellow!20, minimum width=2cm, minimum height=1cm] (E) at (2, 0) {E};
+
+    % Rectangles outside the large environment
+    \node[draw, fill=red!20, minimum width=2cm, minimum height=1cm] (C) at (0, -3) {C};
+    \node[draw, fill=orange!20, minimum width=2cm, minimum height=1cm] (M) at (4, -3) {M};
+
+    % Connections
+    \draw[->] (Perception.east) -- (PA);
+    \draw[->] (PA) -- (E);
+    \draw[->] (E) -- (C);
+    \draw[->] (E) -- (M);
+
+    \end{tikzpicture}
+    \caption{Project Structure}
+    \label{fig:Project_Structure}
+\end{figure}
 
 \subsection{First Basic Design Ideas}
 
