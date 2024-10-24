@@ -31,7 +31,7 @@ def find_path_from_floor(floor_mask):
 
     return midpoints
 
-def path_smoothing(path, smooth_factor=2):
+def path_smoothing(path, smooth_factor=2, number_of_control_points=10):
     """
     Smooth the path using spline interpolation.
     
@@ -58,12 +58,12 @@ def path_smoothing(path, smooth_factor=2):
     # Combine x and y back into a list of midpoints
     smoothed_path = list(zip(map(int, x_smooth), map(int, y_smooth)))
 
-    # Find the point with the lowest y value
-    lowest_point = min(smoothed_path, key=lambda point: point[1])
-    # Extract the x value corresponding to the lowest y value
-    path_position_x = lowest_point[0]
+    # Find the point with the number_of_control_points lowest y values
+    sorted_by_y = sorted(smoothed_path, key=lambda point: point[1])
+    lowest_points = sorted_by_y[:number_of_control_points]
+    average_x = sum(point[0] for point in lowest_points) / len(lowest_points)
     
-    return smoothed_path, path_position_x
+    return smoothed_path, average_x
 
 def draw_path_on_image(image, path):
     """
@@ -78,4 +78,5 @@ def draw_path_on_image(image, path):
     """
     for (x, y) in path:
         cv2.circle(image, (x, y), 3, (0, 255, 0), -1)  # Draw a small circle at each midpoint
+    print(len(path))
     return image

@@ -7,7 +7,7 @@ from modules.path_finder import find_path_from_floor, path_smoothing, draw_path_
 from modules.control import PIDController, send_turning_rate_to_robot
 
 
-def perception(video_source=0, output_file='output.mp4', confidence = 50, overlap = 25, smooth_factor=2, K_p=0.5, K_i=0.1, K_d=0.05):
+def perception(video_source=0, output_file='output.mp4', confidence = 50, overlap = 25, smooth_factor=2, number_of_control_points = 10, K_p=0.5, K_i=0.1, K_d=0.05):
     """Continue until 'e' is pressed."""
 
     # Initialize the floor detection model from Roboflow
@@ -54,7 +54,7 @@ def perception(video_source=0, output_file='output.mp4', confidence = 50, overla
             # Find the path from the detected floor
             path = find_path_from_floor(floor_mask)
             # Apply smoothing to the path and getting the x-position of the path that is the lowest in the image
-            path, path_position_x = path_smoothing(path, smooth_factor)
+            path, path_position_x = path_smoothing(path, smooth_factor, number_of_control_points)
             # Draw the path on the image
             annotated_image = draw_path_on_image(annotated_image, path)
             # Caclulate the turning rate
