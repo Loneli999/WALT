@@ -4,8 +4,8 @@ This project implements a perception system for a robot to navigate through corr
 
 ## Floor Detection Model
 
-- **Model**: `walt-floor_detection`
-- **Platform**: Roboflow (Instance Segmentation, Fast)
+- **Model**: [`walt-floor_detection`](https://universe.roboflow.com/walt-snt93/walt-floor_detection) on Roboflow 
+- **Model Type**: Roboflow 3.0 Instance Segmentation (Fast)
 - **mAP**: 99.5%
 - **Trained on**: 3k+ labeled images
 
