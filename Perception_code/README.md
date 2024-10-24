@@ -1,6 +1,6 @@
-# Robotic Perception
+# Perception
 
-This project implements a perception system for a robot to navigate through corridors using floor detection, path planning, and control. It uses instance segmentation to detect drivable floor areas and a PID controller to adjust the robot's movement based on the detected path.
+This project implements a perception system for a robot to navigate through corridors using floor detection, path planning, and high-level control. It uses instance segmentation to detect drivable floor areas and a PID controller to adjust the robot's movement based on the detected path.
 
 ## Floor Detection Model
 
