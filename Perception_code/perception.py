@@ -1,4 +1,5 @@
 import cv2
+import os
 import numpy as np
 import supervision as sv
 from inference import get_model
@@ -11,7 +12,8 @@ def perception(video_source=0, output_file='output.mp4', confidence = 50, overla
     """Continue until 'e' is pressed."""
 
     # Initialize the floor detection model from Roboflow
-    detect_floor = get_model("walt-floor_detection/1", api_key="1RJQeBGimYLTwFUWPsBn")
+    api_key = os.getenv("ROBOFLOW_WALT_FLOOR_DETECTION_API_KEY")
+    detect_floor = get_model(f"walt-floor_detection/{version}", api_key=api_key)
     detect_floor.confidence = confidence
     detect_floor.overlap = overlap
     # Initialize PID-Controller
