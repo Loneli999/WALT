@@ -1,17 +1,19 @@
 import cv2
+import os
 import numpy as np
 import supervision as sv
 from inference import get_model
-from modules.FPS import calculate_fps, add_fps_on_image
+from modules.fps import calculate_fps, add_fps_on_image
 from modules.path_finder import find_path_from_floor, path_smoothing, draw_path_on_image
 from modules.control import PIDController, send_turning_rate_to_robot
 
 
-def perception(video_source=0, output_file='output.mp4', confidence = 50, overlap = 25, smooth_factor=2, number_of_control_points = 10, K_p=0.5, K_i=0.1, K_d=0.05):
+def perception(video_source=0, version = "1", output_file='output.mp4', confidence = 50, overlap = 25, threshold=10, smooth_factor=2, number_of_control_points = 10, K_p=0.5, K_i=0.1, K_d=0.05):
     """Continue until 'e' is pressed."""
 
     # Initialize the floor detection model from Roboflow
-    detect_floor = get_model("walt-floor_detection/1", api_key="1RJQeBGimYLTwFUWPsBn")
+    api_key = os.getenv("ROBOFLOW_WALT_FLOOR_DETECTION_API_KEY")
+    detect_floor = get_model(f"walt-floor_detection/{version}", api_key=api_key)
     detect_floor.confidence = confidence
     detect_floor.overlap = overlap
     # Initialize PID-Controller
@@ -48,11 +50,11 @@ def perception(video_source=0, output_file='output.mp4', confidence = 50, overla
         # Get the segmentation mask from the detections, compute the path and the turning_rate
         if detections.mask is not None:
             # Merge all masks into a single mask
-            floor_mask = np.any(detections.mask, axis=0).astype(np.uint8) * 255  # Combine masks
+            floor_mask = np.any(detections.mask, axis=0).astype(np.uint8)  # Combine masks
             # Convert to binary (if needed)
-            _, floor_mask = cv2.threshold(floor_mask, 127, 255, cv2.THRESH_BINARY)
+            _, floor_mask = cv2.threshold(floor_mask, 0, 1, cv2.THRESH_BINARY)
             # Find the path from the detected floor
-            path = find_path_from_floor(floor_mask)
+            path = find_path_from_floor(floor_mask, threshold)
             # Apply smoothing to the path and getting the x-position of the path that is the lowest in the image
             path, path_position_x = path_smoothing(path, smooth_factor, number_of_control_points)
             # Draw the path on the image
@@ -87,4 +89,14 @@ def perception(video_source=0, output_file='output.mp4', confidence = 50, overla
     out.release()
     cv2.destroyAllWindows()
 
-perception(video_source=2, output_file='predicted_output.mp4')
+# Set Parameter
+video_source=2
+version = "3"
+output_file='predicted_output.mp4'
+confidence = 50
+overlap = 25
+smooth_factor=5
+threshold=10
+
+# Call perception()
+perception(video_source, version, output_file, confidence, overlap, threshold, smooth_factor)

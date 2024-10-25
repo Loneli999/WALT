@@ -2,12 +2,15 @@ import cv2
 import numpy as np
 from scipy.interpolate import splprep, splev
 
-def find_path_from_floor(floor_mask):
+def find_path_from_floor(floor_mask, threshold=10):
     """
-    Finds the path (centerline) based on the left and right boundaries of the floor mask.
+    Finds the path (centerline) based on the left and right boundaries of the floor mask,
+    ensuring that no midpoint is closer than a specific threshold to any boundary points.
+    If the threshold is too small, the midpoint is adjusted accordingly.
     
     Args:
         floor_mask (numpy.ndarray): A binary mask where the floor is marked as 1 (or True).
+        threshold (int): The minimum distance allowed between the midpoint and all annotations.
     
     Returns:
         path (list): A list of (x, y) midpoints representing the centerline of the path in the detected floor area.
@@ -19,14 +22,36 @@ def find_path_from_floor(floor_mask):
     for y in range(height):
         row = floor_mask[y, :]
 
-        if np.any(row): # If there are non-zero pixels in the row
-            # Find the leftmost and rightmost points in the row
-            x_left = np.argmax(row)  # The first '1' from the left
-            x_right = width - np.argmax(np.flip(row)) - 1  # The first '1' from the right
+        if np.any(row):  # If there are non-zero pixels in the row
+            # Get all the non-zero (annotated) points in the row
+            annotated_points = np.where(row == 1)[0]
 
-            if x_right > x_left:  # Only consider rows with valid boundaries
-                # Compute the midpoint between left and right boundaries
+            if len(annotated_points) > 1:  # Only consider rows with more than one annotation
+                x_left = annotated_points[0]  # The leftmost annotated point
+                x_right = annotated_points[-1]  # The rightmost annotated point
+                
+                # Compute the initial midpoint between left and right boundaries
                 x_mid = (x_left + x_right) // 2
+
+                # Calculate the distance from the midpoint to all annotated points
+                distances_to_annotations = np.abs(annotated_points - x_mid)
+
+                # If the minimum distance to any annotation is less than the threshold, adjust the midpoint
+                if np.min(distances_to_annotations) < threshold:
+                    # Find the closest annotation point
+                    closest_annotation_idx = np.argmin(distances_to_annotations)
+                    closest_annotation = annotated_points[closest_annotation_idx]
+
+                    # Adjust the midpoint so that it's at least `threshold` away from the closest annotation
+                    if x_mid < closest_annotation:
+                        x_mid = closest_annotation - threshold
+                    else:
+                        x_mid = closest_annotation + threshold
+
+                    # Make sure x_mid stays within the boundaries of the row
+                    x_mid = max(x_left + threshold, min(x_right - threshold, x_mid))
+
+                # Append the valid or adjusted midpoint
                 midpoints.append((x_mid, y))
 
     return midpoints
@@ -78,5 +103,4 @@ def draw_path_on_image(image, path):
     """
     for (x, y) in path:
         cv2.circle(image, (x, y), 3, (0, 255, 0), -1)  # Draw a small circle at each midpoint
-    print(len(path))
     return image
