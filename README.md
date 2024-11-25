@@ -4,7 +4,7 @@ This project focuses on the development of a quadruped robot designed for autono
 
 ## Features
 - **Hybrid Locomotion:** The robot can walk using its four legs or drive using its foot-mounted wheels, switching between modes to optimize mobility.
-- **Real-Time Obstacle Avoidance:** Equipped with sensors such as LIDAR and cameras, the robot can detect and navigate around obstacles in real time.
+- **Real-Time Obstacle Avoidance:** Equipped just with a camera, the robot can detect and navigate around obstacles in real time.
 - **Autonomous Pathfinding:** Using algorithms for path planning, the robot can find the most efficient route to its destination while avoiding obstacles.
 - **Multi-Joint Coordination:** Each leg has two joints, providing a range of movement to adapt to different terrains and challenges.
 - **Terrain-Based Mode Switching:** The robot autonomously decides when to walk (e.g., over complex obstacles) or drive (e.g., smooth surfaces).
