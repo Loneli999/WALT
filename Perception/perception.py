@@ -8,12 +8,11 @@ from modules.path_finder import find_path_from_floor, path_smoothing, draw_path_
 from modules.control import PIDController, send_turning_rate_to_robot
 
 
-def perception(video_source=0, output_file='output.mp4', confidence = 50, overlap = 25, smooth_factor=2, number_of_control_points = 10, K_p=0.5, K_i=0.1, K_d=0.05):
+def perception(video_source=0, output_file='output.mp4', version = "1", confidence = 50, overlap = 25, smooth_factor=2, number_of_control_points = 10, K_p=0.5, K_i=0.1, K_d=0.05):
     """Continue until 'e' is pressed."""
 
     # Initialize the floor detection model from Roboflow
-    api_key = os.getenv("ROBOFLOW_WALT_FLOOR_DETECTION_API_KEY")
-    detect_floor = get_model(f"walt-floor_detection/{version}", api_key=api_key)
+    detect_floor = get_model(f"walt-floor-and-stair-detection/{version}")
     detect_floor.confidence = confidence
     detect_floor.overlap = overlap
     # Initialize PID-Controller
@@ -90,7 +89,8 @@ def perception(video_source=0, output_file='output.mp4', confidence = 50, overla
     cv2.destroyAllWindows()
 
 
-output_file = r"C:\Users\leon-\Videos\WALT\predicted_output.mp4"
-video_source=2
+output_file = r"/home/leon/Videos/predicted_output.mp4"
+video_source=0
+version = "4"
 
-perception(video_source, output_file)
+perception(video_source, output_file, version)
