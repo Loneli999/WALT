@@ -10,11 +10,6 @@ This project focuses on the development of a quadruped robot designed for autono
 - **Terrain-Based Mode Switching:** The robot autonomously decides when to walk (e.g., over complex obstacles) or drive (e.g., smooth surfaces).
 
 ## Core Components
-- **Sensor Processing:** Processes data from LIDAR and cameras to understand the environment and make navigation decisions.
+- **Sensor Processing:** Processes data from only a monocular cameras to understand the environment and make navigation decisions.
 - **Locomotion Control:** Coordinates the legs and wheels for smooth transitions between walking and driving.
 - **Pathfinding Algorithm:** Implements algorithms for obstacle avoidance and efficient path planning.
-
-## Installation
-To install the required dependencies:
-```bash
-pip install -r requirements.txt
