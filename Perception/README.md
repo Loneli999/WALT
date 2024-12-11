@@ -4,20 +4,13 @@ This project implements a perception system for a robot to navigate through corr
 
 ## Floor Detection Model
 
-- **Model**: [`walt-floor_detection`](https://universe.roboflow.com/walt-snt93/walt-floor_detection) on Roboflow 
-- **Model Type**: Roboflow 3.0 Instance Segmentation (Fast)
-- **mAP**: 99.5%
-- **Trained on**: 3k+ labeled images
+- **Model**: [`walt-floor_detection`](https://universe.roboflow.com/walt-snt93/walt-floor-and-stair-detection/model/4) on Roboflow 
+- **Model Type**: Yolov11
+- **mAP**: 97.6%
+- **Trained on**: 5k+ labeled images
 
 ## Key Components
 
-1. **Floor Detection**: The Roboflow model performs instance segmentation on the floor.
+1. **Floor and Stairs Detection**: The Yolo model performs instance segmentation on the floor and stairs.
 2. **Path Finding**: Midpoints of the detected floor boundaries are used to create a drivable path and smoothed after.
 3. **PID Controller**: The controller calculates a turning rate based on the robot's position relative to the path.
-
-## Requirements
-
-To install the necessary dependencies, run:
-
-```bash
-pip install opencv-python numpy roboflow supervision scipy inference
